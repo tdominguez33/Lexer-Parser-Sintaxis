@@ -41,8 +41,11 @@ def guardarToken(cadena):
             break
 
 def lexer(codigoFuente):
+    # Agregamos un espacio para que pueda detectar correctamente el final de linea
+    codigoFuente += ' '
     global tokens
     tokens = []
+    tokensDesconocidos = []
     inicio = 0
     final = 1
     while final <= len(codigoFuente):
@@ -57,17 +60,21 @@ def lexer(codigoFuente):
         final -= 1
         guardarToken(codigoFuente[inicio : final])
         
-        # Se usa para evitar un ciclo infinito en los espacios
+        # Se usa para evitar un ciclo infinito en los tokens desconocidos
         if inicio == final:
+            tokensDesconocidos.append(codigoFuente[inicio : final + 1])
             inicio += 1
             final += 2
         else:
             inicio = final
             final = inicio + 1
 
-        # Si no quedan mas caracteres en el código fuente salimos del while
+        # Si no quedan mas caracteres en el código fuente salimos del while, pero antes chequeamos que no nos haya quedado nada
+
         if final == len(codigoFuente):
             break
         
-
+    print("Token/s desconocidos: " + str(tokensDesconocidos))
     return tokens
+
+print(lexer("mientras 92 esMenorQue 45"))
