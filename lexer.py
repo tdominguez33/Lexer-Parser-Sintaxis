@@ -40,6 +40,7 @@ def guardarToken(cadena):
             tokens.append((tipoToken, cadena))
             break
 
+# Para utilizar el lexer hay que indicarle un string que contiene el código fuente
 def lexer(codigoFuente):
     # Agregamos un espacio para que pueda detectar correctamente el final de linea
     codigoFuente += ' '
@@ -49,9 +50,15 @@ def lexer(codigoFuente):
     inicio = 0
     final = 1
     while final <= len(codigoFuente):
+        
+        # Salteamos los espacios si es que hay
+        while codigoFuente[inicio].isspace():
+            inicio += 1
+            final += 1
+
         lexema = codigoFuente[inicio : final]
         
-        # Mientras no se generen estados trampa en todos los automatas seguimos añadiendo caracteres al lexema hasta que nos pasemos
+        # Mientras no se generen estados trampa en todos los automatas seguimos añadiendo caracteres al lexema hasta que si los genere
         while not generaEstadosTrampa(lexema):
             final += 1
             lexema = codigoFuente[inicio : final]
@@ -60,21 +67,22 @@ def lexer(codigoFuente):
         final -= 1
         guardarToken(codigoFuente[inicio : final])
         
-        # Se usa para evitar un ciclo infinito en los tokens desconocidos
+        # Si hay un caracter desconocido la posición inicial y final se solaparan
         if inicio == final:
             tokensDesconocidos.append(codigoFuente[inicio : final + 1])
             inicio += 1
             final += 2
         else:
+            # Si no hubo ningún caracter desconocido nos movemos para buscar el siguiente token
             inicio = final
             final = inicio + 1
 
-        # Si no quedan mas caracteres en el código fuente salimos del while, pero antes chequeamos que no nos haya quedado nada
-
+        # Si no quedan mas caracteres en el código fuente salimos del while
         if final == len(codigoFuente):
             break
         
     print("Token/s desconocidos: " + str(tokensDesconocidos))
     return tokens
 
-print(lexer("mientras 92 esMenorQue 45"))
+# Ejemplo
+print(lexer("mientras 69 esMenorQue (contador + 45)"))
