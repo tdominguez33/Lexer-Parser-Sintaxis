@@ -7,7 +7,7 @@ from automatas import FINAL
 from automatas import NOFINAL
 
 # Lista de posibles tokens en orden de jerarquia
-TOKENS_POSIBLES = [("eq", automatas.afd_eq), ("num", automatas.afd_num), ("+", automatas.afd_suma) , ("*", automatas.afd_multiplicacion), ("op", automatas.afd_abrirParentesis), ("clp", automatas.afd_cerrarParentesis), ("si", automatas.afd_si), ("entonces", automatas.afd_entonces), ("sino", automatas.afd_sino), ("mostrar", automatas.afd_mostrar), ("aceptar", automatas.afd_aceptar), ("mientras", automatas.afd_mientras), ("esMenorQue", automatas.afd_esMenorQue), ("hacer", automatas.afd_hacer), ("id", automatas.afd_id)]
+TOKENS_POSIBLES = [("eq", automatas.afd_eq), ("num", automatas.afd_num), ("+", automatas.afd_suma) , ("*", automatas.afd_multiplicacion), ("(", automatas.afd_abrirParentesis), (")", automatas.afd_cerrarParentesis), ("si", automatas.afd_si), ("entonces", automatas.afd_entonces), ("sino", automatas.afd_sino), ("mostrar", automatas.afd_mostrar), ("aceptar", automatas.afd_aceptar), ("mientras", automatas.afd_mientras), ("esMenorQue", automatas.afd_esMenorQue), ("hacer", automatas.afd_hacer), ("op", automatas.afd_op), ("clp", automatas.afd_clp), ("id", automatas.afd_id)]
 
 #print(TOKENS_POSIBLES[0][1]("si"))
 
@@ -49,8 +49,8 @@ def lexer(codigoFuente):
     tokensDesconocidos = []
     inicio = 0
     final = 1
+
     while final <= len(codigoFuente):
-        
         # Salteamos los espacios si es que hay
         while codigoFuente[inicio].isspace():
             inicio += 1

@@ -341,20 +341,35 @@ def afd_hacer(cadena):
     else:
         return NOFINAL
 
-# No estoy seguro
-def afd_tupla(cadena):
+def afd_op(cadena):
     estadoActual = 0
-    estadosFinales = [4]
+    estadosFinales = [2]
     
     for caracter in cadena:
-        if estadoActual == 0 and caracter == '(':
+        if estadoActual == 0 and caracter == 'o':
             estadoActual = 1
-        elif estadoActual == 1 and caracter == ',':
+        elif estadoActual == 1 and caracter == 'p':
             estadoActual = 2
-        elif estadoActual == 2 and caracter == ' ':
+        else:
+            estadoActual = -1
+            return TRAMPA
+    
+    if estadoActual in estadosFinales:
+        return FINAL
+    else:
+        return NOFINAL
+
+def afd_clp(cadena):
+    estadoActual = 0
+    estadosFinales = [3]
+    
+    for caracter in cadena:
+        if estadoActual == 0 and caracter == 'c':
+            estadoActual = 1
+        elif estadoActual == 1 and caracter == 'l':
+            estadoActual = 2
+        elif estadoActual == 2 and caracter == 'p':
             estadoActual = 3
-        elif estadoActual == 3 and caracter == ')':
-            estadoActual = 4
         else:
             estadoActual = -1
             return TRAMPA
