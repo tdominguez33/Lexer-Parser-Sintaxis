@@ -56,6 +56,10 @@ def lexer(codigoFuente):
             inicio += 1
             final += 1
 
+            # Verificación para no salirnos del tamaño del string
+            if inicio == len(codigoFuente):
+                break
+
         lexema = codigoFuente[inicio : final]
         
         # Mientras no se generen estados trampa en todos los automatas seguimos añadiendo caracteres al lexema hasta que si los genere
@@ -84,5 +88,13 @@ def lexer(codigoFuente):
     print("Token/s desconocidos: " + str(tokensDesconocidos))
     return tokens
 
-# Ejemplo
+# Ejemplos
 print(lexer("mientras 69 esMenorQue (contador + 45)"))
+print(lexer("mientras = * + ( ) si sino entonces mostrar aceptar esMenorQue hacer op clp"))
+print(lexer("si (43 = 21)"))
+print(lexer("si (43=25) entonces mostrar variable"))
+print(lexer("si$ 67 entonces"))
+print(lexer("23asd"))
+
+print(lexer("mientras 78 esMenorQue var hacer op clp"))
+print(lexer("si (43=25) entonces mostrar variable"))
