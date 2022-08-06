@@ -9,11 +9,13 @@ TRAMPA = "Autómata en estado TRAMPA"
 # eq -> Signo =
 def afd_eq(cadena):
     estadoActual = 0
-    estadosFinales = [1]
+    estadosFinales = [2]
     
     for caracter in cadena:
-        if estadoActual == 0 and caracter == '=':
+        if estadoActual == 0 and caracter == 'e':
             estadoActual = 1
+        elif estadoActual == 1 and caracter == 'q':
+            estadoActual = 2
         else:
             estadoActual = -1
             return TRAMPA
