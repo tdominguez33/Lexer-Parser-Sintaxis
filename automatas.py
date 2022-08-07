@@ -44,7 +44,7 @@ def afd_id(cadena):
     else:
         return NOFINAL
 
-# num -> Cualquier Número
+# num -> Cualquier número (entero)
 def afd_num(cadena):
     estadoActual = 0
     estadosFinales = [1]

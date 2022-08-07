@@ -1,15 +1,12 @@
 # El Lexer le envia los tokens al Parser, solo se preocupa de que los tokens esten bien formados.
 # Cada token representa un grupo de terminales de la gramática
 # Lexema: Valor que toma el token en esa posición
-# Los números son solo enteros
 import automatas
 from automatas import FINAL
 from automatas import NOFINAL
 
 # Lista de posibles tokens en orden de jerarquia
 TOKENS_POSIBLES = [("eq", automatas.afd_eq), ("num", automatas.afd_num), ("+", automatas.afd_suma) , ("*", automatas.afd_multiplicacion), ("(", automatas.afd_abrirParentesis), (")", automatas.afd_cerrarParentesis), ("si", automatas.afd_si), ("entonces", automatas.afd_entonces), ("sino", automatas.afd_sino), ("mostrar", automatas.afd_mostrar), ("aceptar", automatas.afd_aceptar), ("mientras", automatas.afd_mientras), ("esMenorQue", automatas.afd_esMenorQue), ("hacer", automatas.afd_hacer), ("op", automatas.afd_op), ("clp", automatas.afd_clp), ("id", automatas.afd_id)]
-
-#print(TOKENS_POSIBLES[0][1]("si"))
 
 tokens = []
 
@@ -73,7 +70,7 @@ def lexer(codigoFuente):
         
         # Si hay un caracter desconocido la posición inicial y final se solaparan
         if inicio == final:
-            tokensDesconocidos.append(codigoFuente[inicio : final + 1])
+            tokensDesconocidos.append(codigoFuente[inicio])
             inicio += 1
             final += 2
         else:
