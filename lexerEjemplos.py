@@ -1,4 +1,4 @@
-from lexer import lexer
+from lexer_TP1 import lexer
 
 print(lexer("mientras 69 esMenorQue (contador + 45)"))
 print(lexer("mientras = * + ( ) si sino entonces mostrar aceptar esMenorQue hacer op clp"))
