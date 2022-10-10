@@ -1,23 +1,24 @@
-# Convertimos la salida del lexer a una lista que el parser puede entender
-from lexer_TP1 import lexer
-
-
+# Función que convierte la salida del lexer a una lista que el parser puede entender
 def traduccionParser(salidaLexer):
     cadena = []
+    # Ponemos cada primer elemento de cada tupla (token) en una lista
     for tupla in salidaLexer:
         cadena.append(tupla[0])
     cadena.append('#')
     return cadena
 
-def generarDerivacion(topePila, produccionAnterior, produccionSiguiente):
+# Función que genera las derivaciones, recibe el elemento a derivar, en que cadena y por que se deriva
+def generarDerivacion(topePila, produccionAnterior, derivacion):
+    # Obtenemos en que posición se encuentra el elemento a derivar
     indice = produccionAnterior.index(topePila)
+    # Eliminamos el elemento a derivar
     produccionAnterior.remove(topePila)
+    # Damos vuelta la lista de 'derivacion' para que luego al insertarla quede en el orden original
     produccionReversed = []
-    # Damos vuelta la lista de produccionSiguiente
-    for i in produccionSiguiente:
-        # Insertamos todos los elementos en la posición 0 de la nueva lista
+    for i in derivacion:
         produccionReversed.insert(0, i)
 
+    # Insertamos la lista dada vuelta en la cadena a derivar
     for i in produccionReversed:
         produccionAnterior.insert(indice, i)
     
@@ -37,23 +38,29 @@ tabla = {
     'Factor':{'(': ['(', 'Expresion', ')'], 'id': ['Valor'], 'num': ['Valor']}
 }
 
+# Lista de terminales
 VT = ['eq', 'id', 'num', '*', '+', 'op', 'clp', 'si', 'entonces', 'sino', 'mostrar', 'aceptar', 'mientras', 'esMenorQue', 'hacer', '(', ')']
 
-
+# Función principal
 def parser(cadena):
-    #Iniciamos la pila con el simbolo EOF y el simbolo distinguido
+    # Iniciamos la pila con el simbolo EOF (#) y el simbolo distinguido
     pila = ['#', 'Program']
     simboloApuntado = 0
-
+    # Lista donde se trabaja con las derivaciones en cada ciclo
     derivacion = ['Program']
+    # Lista donde se guardan todas las derivaciones
     derivaciones = []
 
+    # Flags
     continuar = True
     error = False
 
+    # Ciclo principal
     while continuar:
+        # Actualizamos el valor del tope
         tope = pila[-1]
 
+        # Condición para salir del ciclo
         if (tope == '#') and (cadena[simboloApuntado] == '#'):
             print("La cadena es aceptada por el lenguaje")
             print("Derivaciones:")
@@ -63,19 +70,26 @@ def parser(cadena):
 
         if tope in VT:
             if tope == cadena[simboloApuntado]:
+                # Consumimos el último elemento de la pila
                 pila.pop()
+                # Avanzamos el puntero en un elemento
                 simboloApuntado += 1
             else:
                 error = True
         else:
+            # Intentamos obtener el elemento de la tabla en la posición indicada
             try:
                 produccionTabla = tabla[tope][cadena[simboloApuntado]]
+                # Damos vuelta la producción
                 produccionReversed = []
                 for i in produccionTabla:
                     # Insertamos todos los elementos en la posición 0 de la nueva lista
                     produccionReversed.insert(0, i)
+                # Consumimos el último elemento de la pila
                 pila.pop()
+                # Agregamos la producción dada vuelta a la pila
                 pila.extend(produccionReversed)
+                # Guardamos la derivación
                 derivacion = generarDerivacion(tope, derivacion, produccionTabla)
                 # El .copy() es necesario porque sino se copian las referencias y tendriamos una lista con 5 elementos iguales
                 derivaciones.append(derivacion.copy())
@@ -83,6 +97,7 @@ def parser(cadena):
             except:
                 error = True
 
+        # Si hay error salimos del ciclo
         if (error):
             continuar = False
             print("La cadena no pertenece al lenguaje")
