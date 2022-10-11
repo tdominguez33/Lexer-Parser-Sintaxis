@@ -25,17 +25,53 @@ def generarDerivacion(topePila, produccionAnterior, derivacion):
     return produccionAnterior
 
 # "Program -> Estructura Program" tiene como simbolos directrices a: mientras, si, mostrar, aceptar e id
-# tabla[Columna][Fila]
 # El EOF es el simbolo #
+
+# tabla[Columna][Fila]
 tabla = {
-    'Program':{'mientras': ['Estructura', 'Program'], 'si': ['Estructura', 'Program'], 'mostrar': ['Estructura', 'Program'], 'aceptar': ['Estructura', 'Program'], 'id': ['Estructura', 'Program'], 'clp': [], '#': []},
-    'Estructura':{'mientras': ['mientras', 'id', 'esMenorQue', 'Valor', 'hacer', 'op', 'Program', 'clp'], 'si': ['si', 'Expresion', 'entonces', 'op', 'Program', 'clp', 'sino', 'op', 'Program', 'clp'], 'mostrar': ['mostrar', 'Expresion'], 'aceptar': ['aceptar', 'id'], 'id': ['id', 'eq', 'Expresion']},
-    'Valor':{'id': ['id'], 'num': ['num']},
-    'Expresion':{'(': ['Termino', 'Expresion2'], 'id': ['Termino', 'Expresion2'], 'num': ['Termino', 'Expresion2']},
-    'Expresion2':{'+': ['+', 'Termino', "Expresion2"], '#': []},
-    'Termino':{'(': ['Factor', 'Termino2'], 'id': ['Factor', 'Termino2'], 'num': ['Factor', 'Termino2']},
-    'Termino2':{'*': ['*', 'Factor', 'Termino2'], '#': []},
-    'Factor':{'(': ['(', 'Expresion', ')'], 'id': ['Valor'], 'num': ['Valor']}
+    'Program':{
+        'mientras': ['Estructura', 'Program'], 
+        'si':       ['Estructura', 'Program'], 
+        'mostrar':  ['Estructura', 'Program'], 
+        'aceptar':  ['Estructura', 'Program'], 
+        'id':       ['Estructura', 'Program'], 
+        'clp':      [], 
+        '#':        []
+    },
+    'Estructura':{
+        'mientras': ['mientras', 'id', 'esMenorQue', 'Valor', 'hacer', 'op', 'Program', 'clp'], 
+        'si':       ['si', 'Expresion', 'entonces', 'op', 'Program', 'clp', 'sino', 'op', 'Program', 'clp'], 
+        'mostrar':  ['mostrar', 'Expresion'], 
+        'aceptar':  ['aceptar', 'id'], 
+        'id':       ['id', 'eq', 'Expresion']
+    },
+    'Valor':{
+        'id':       ['id'], 
+        'num':      ['num']
+    },
+    'Expresion':{
+        '(':        ['Termino', 'Expresion2'], 
+        'id':       ['Termino', 'Expresion2'], 
+        'num':      ['Termino', 'Expresion2']
+    },
+    'Expresion2':{
+        '+':        ['+', 'Termino', "Expresion2"], 
+        '#':        []
+    },
+    'Termino':{
+        '(':        ['Factor', 'Termino2'], 
+        'id':       ['Factor', 'Termino2'], 
+        'num':      ['Factor', 'Termino2']
+    },
+    'Termino2':{
+        '*':        ['*', 'Factor', 'Termino2'], 
+        '#':        []
+    },
+    'Factor':{
+        '(':        ['(', 'Expresion', ')'], 
+        'id':       ['Valor'], 
+        'num':      ['Valor']
+    }
 }
 
 # Lista de terminales
@@ -51,16 +87,15 @@ def parser(cadena):
     # Lista donde se guardan todas las derivaciones
     derivaciones = []
 
-    # Flags
+    # Flag para salir del ciclo principal
     continuar = True
-    error = False
 
     # Ciclo principal
     while continuar:
         # Actualizamos el valor del tope
         tope = pila[-1]
 
-        # Condición para salir del ciclo
+        # Condición de éxito
         if (tope == '#') and (cadena[simboloApuntado] == '#'):
             print("La cadena es aceptada por el lenguaje")
             print("Derivaciones:")
@@ -74,8 +109,11 @@ def parser(cadena):
                 pila.pop()
                 # Avanzamos el puntero en un elemento
                 simboloApuntado += 1
+            
+            # Si no se cumple la condición salimos del ciclo
             else:
-                error = True
+                continuar = False
+                print("La cadena no pertenece al lenguaje")
         else:
             # Intentamos obtener el elemento de la tabla en la posición indicada
             try:
@@ -93,11 +131,8 @@ def parser(cadena):
                 derivacion = generarDerivacion(tope, derivacion, produccionTabla)
                 # El .copy() es necesario porque sino se copian las referencias y tendriamos una lista con 5 elementos iguales
                 derivaciones.append(derivacion.copy())
-                
-            except:
-                error = True
 
-        # Si hay error salimos del ciclo
-        if (error):
-            continuar = False
-            print("La cadena no pertenece al lenguaje")
+            # Si hay error salimos del ciclo   
+            except:
+                continuar = False
+                print("La cadena no pertenece al lenguaje")

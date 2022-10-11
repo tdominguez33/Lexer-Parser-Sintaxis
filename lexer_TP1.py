@@ -1,12 +1,31 @@
 # El Lexer le envia los tokens al Parser, solo se preocupa de que los tokens esten bien formados.
 # Cada token representa un grupo de terminales de la gramática
 # Lexema: Valor que toma el token en esa posición
-import automatas
-from automatas import FINAL
-from automatas import NOFINAL
 
-# Lista de posibles tokens en orden de jerarquia
-TOKENS_POSIBLES = [("eq", automatas.afd_eq), ("num", automatas.afd_num), ("+", automatas.afd_suma) , ("*", automatas.afd_multiplicacion), ("(", automatas.afd_abrirParentesis), (")", automatas.afd_cerrarParentesis), ("si", automatas.afd_si), ("entonces", automatas.afd_entonces), ("sino", automatas.afd_sino), ("mostrar", automatas.afd_mostrar), ("aceptar", automatas.afd_aceptar), ("mientras", automatas.afd_mientras), ("esMenorQue", automatas.afd_esMenorQue), ("hacer", automatas.afd_hacer), ("op", automatas.afd_op), ("clp", automatas.afd_clp), ("id", automatas.afd_id)]
+# Importamos todas las funciones y constantes del archivo 'autómatas_TP1'
+from automatas_TP1 import *
+
+
+# Lista de posibles tokens en orden jerárquico
+TOKENS_POSIBLES = [
+("eq", afd_eq), 
+("num", afd_num), 
+("+", afd_suma) , 
+("*", afd_multiplicacion), 
+("(", afd_abrirParentesis), 
+(")", afd_cerrarParentesis), 
+("si", afd_si), 
+("entonces", afd_entonces), 
+("sino", afd_sino), 
+("mostrar", afd_mostrar), 
+("aceptar", afd_aceptar), 
+("mientras", afd_mientras), 
+("esMenorQue", afd_esMenorQue), 
+("hacer", afd_hacer), 
+("op", afd_op), 
+("clp", afd_clp), 
+("id", afd_id)
+]
 
 tokens = []
 
