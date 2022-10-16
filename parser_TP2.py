@@ -102,7 +102,7 @@ def parser(cadena):
             for i in derivaciones:
                 print(i)
             break
-
+            
         if tope in VT:
             if tope == cadena[simboloApuntado]:
                 # Consumimos el último elemento de la pila
