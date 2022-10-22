@@ -55,7 +55,15 @@ tabla = {
         'num':      ['Termino', 'Expresion2']
     },
     'Expresion2':{
-        '+':        ['+', 'Termino', "Expresion2"], 
+        '+':        ['+', 'Termino', "Expresion2"],
+        'mientras': [],
+        'si':       [],
+        'mostrar':  [],
+        'aceptar':  [],
+        'id':       [],
+        'clp':      [],
+        'entonces': [],
+        ')':        [],
         '#':        []
     },
     'Termino':{
@@ -64,7 +72,16 @@ tabla = {
         'num':      ['Factor', 'Termino2']
     },
     'Termino2':{
-        '*':        ['*', 'Factor', 'Termino2'], 
+        '*':        ['*', 'Factor', 'Termino2'],
+        'mientras': [],
+        'si':       [],
+        'mostrar':  [],
+        'aceptar':  [],
+        'id':       [],
+        'clp':      [],
+        'entonces': [],
+        ')':        [],
+        '+':        [],
         '#':        []
     },
     'Factor':{
